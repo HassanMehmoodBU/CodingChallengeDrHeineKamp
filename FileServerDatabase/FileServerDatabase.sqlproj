@@ -66,10 +66,6 @@
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="Scripts\Publish\Script.PostDeployment.sql" />
-    <None Include="Scripts\Publish\Script.RequiredData.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <Build Include="dbo\Tables\AspNetRoleClaims.sql" />
     <Build Include="dbo\Tables\AspNetRoles.sql" />
     <Build Include="dbo\Tables\AspNetUserClaims.sql" />

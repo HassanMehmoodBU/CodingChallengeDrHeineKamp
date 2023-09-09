@@ -16,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureSqlServerDbContext(builder.Configuration);
-//builder.Services.ConfigureCors();
+builder.Services.ConfigureCors();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IJwtMiddlewareHandler, JwtMiddlewareHandler>();
 

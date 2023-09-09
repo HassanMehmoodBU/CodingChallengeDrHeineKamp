@@ -7,14 +7,14 @@ namespace FileServerServiceLogic.Extensions.ServiceExt
 {
     public static class ServiceCollection
     {
-        //public static void ConfigureCors(this IServiceCollection services) =>
-        //    services.AddCors(options =>
-        //    {
-        //        options.AddPolicy("CorsPolicy", builder =>
-        //            builder.AllowAnyOrigin()
-        //            .AllowAnyMethod()
-        //            .AllowAnyHeader());
-        //    });
+        public static void ConfigureCors(this IServiceCollection services) =>
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
 
         public static void ConfigureSqlServerDbContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddDbContext<FileServerDataContext>(opts =>
