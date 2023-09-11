@@ -168,10 +168,6 @@ namespace BackEnd.Controllers
         [HttpGet("downloadlink/{fileGuid}")]
         public async Task<IActionResult> DownloadLink(Guid fileGuid)
         {
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            //if (userId == null) return BadRequest("User was not found in Token");
-
             try
             {
                 var fileData = await _documentsProvider.CheckShareAbleAndGetFileData(fileGuid);

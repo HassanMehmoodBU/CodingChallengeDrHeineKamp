@@ -56,6 +56,8 @@
 
                             <div class="col">
                                 <label class="form-check-label">
+                                    <i class="{{getFileExtension(file.documentName)}}" style="color:#5cb85c;"
+                                        aria-hidden="true"></i>
                                     <a [routerLink]="['/', file.documentId]" (click)="downloadDocument(file.documentId)"
                                         style="cursor: pointer; text-decoration: underline; color: blue;">
                                         {{ file.documentName }}
@@ -70,7 +72,7 @@
                             <div class="col-auto">
                                 <div class="form-check">
                                     <a href="javascript:void(0);"
-                                        (click)="shareAbleLink( file.documentId, file.documentName)">
+                                        (click)="shareAbleLink( file.documentId, file.documentName, file.shareExpiry)">
                                         Shareable Link
                                     </a>
                                 </div>
@@ -112,6 +114,16 @@
                 <div class="row">
                     <div class="col-md-10">
                         <label for="dataLabel2"> {{ ShareableLinkText }}</label>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-10">
+                        <span *ngIf="ShareableLinkText !== 'Link Unavailable'">
+                            Link will expire on : {{ ShareExpiry }}
+                        </span>
                     </div>
                     <div class="col-md-4">
                     </div>

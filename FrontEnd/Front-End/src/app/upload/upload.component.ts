@@ -32,6 +32,17 @@ export class UploadComponent implements OnInit {
     shareAbleFileName = '';
     shareAbleDocumentId = '';
     ShareableLinkText = 'Link Unavailable';
+    ShareExpiry: Date = null;
+
+    iconList = [
+        { type: "xlsx", icon: "bi-file-excel" },
+        { type: "xls", icon: "bi-file-excel" },
+        { type: "pdf", icon: "bi-file-pdf" },
+        { type: "jpg", icon: "bi-file-image" },
+        { type: "doc", icon: "bi-file-word" },
+        { type: "docx", icon: "bi-file-word" },
+        { type: "txt", icon: "bi-file-text" }
+    ];
 
 
     ngOnInit(): void {
@@ -44,6 +55,21 @@ export class UploadComponent implements OnInit {
         this.getAllDocs();
     }
 
+    getFileExtension(filename) {
+        let ext = filename.split(".").pop();
+        let obj = this.iconList.filter(row => {
+            if (row.type === ext) {
+                return true;
+            }
+        });
+        if (obj.length > 0) {
+            let icon = obj[0].icon;
+            return icon;
+        } else {
+            return "";
+        }
+    }
+
     saveData() {
 
         const authToken = localStorage.getItem("token");;
@@ -54,8 +80,8 @@ export class UploadComponent implements OnInit {
 
         this.repository.generateShareAbleLink(headers_data, this.shareAbleDocumentId, this.inputDays, this.inputHours).subscribe(
             (response) => {
-                // console.log(response);
                 this.ShareableLinkText = this.envUrl.urlAddress + '/api/documents/downloadlink/' + response.documentId;
+                this.ShareExpiry = new Date(response.shareExpiry);
             },
             (error) => {
                 console.error('Error generating link:', error);
@@ -71,6 +97,7 @@ export class UploadComponent implements OnInit {
         this.shareAbleFileName = '';
         this.ShareableLinkText = 'Link Unavailable';
         this.shareAbleDocumentId = '';
+        this.ShareExpiry = null;
         this.showPopup = false;
     }
 
@@ -266,9 +293,15 @@ export class UploadComponent implements OnInit {
         }
     }
 
-    shareAbleLink(documentId: string, documentName: string) {
+    shareAbleLink(documentId: string, documentName: string, expiry: Date) {
         this.shareAbleDocumentId = documentId;
         this.shareAbleFileName = documentName;
+        const currentDate = new Date();
+        const specificDate = new Date(expiry);
+        this.ShareExpiry = specificDate;
+        if (this.ShareExpiry != null && specificDate >= currentDate) {
+            this.ShareableLinkText = this.envUrl.urlAddress + '/api/documents/downloadlink/' + this.shareAbleDocumentId;
+        }
         this.openPopup()
     }
 
