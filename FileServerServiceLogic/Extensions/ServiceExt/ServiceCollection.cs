@@ -13,7 +13,8 @@ namespace FileServerServiceLogic.Extensions.ServiceExt
                 options.AddPolicy("CorsPolicy", builder =>
                     builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("Content-Disposition"));
             });
 
         public static void ConfigureSqlServerDbContext(this IServiceCollection services, IConfiguration configuration) =>

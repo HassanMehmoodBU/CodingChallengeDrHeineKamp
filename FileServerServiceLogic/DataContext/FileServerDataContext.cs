@@ -24,5 +24,9 @@ namespace FileServerServiceLogic.DataContext
 
         }
 
+        public DbSet<Document> Documents { get; set; }
+
+        public DbSet<ShareLog> ShareLogs { get; set; }
+
     }
 }

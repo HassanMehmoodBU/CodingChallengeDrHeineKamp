@@ -1,0 +1,128 @@
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title">uploader</h1>
+
+        <div *ngIf="showError" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+        </div>
+
+        <div class="row mt-5">
+            <div class="col">
+                <div class="custom-file">
+                    <input type="file" accept=".pdf,.xls,.xlsx,.doc,.docx,.txt,image/*" class="custom-file-input"
+                        id="customFile" (change)="handleFileInput($any($event.target).files)" [disabled]="working"
+                        multiple>
+                    <label class="custom-file-label" for="customFile">{{ uploadFileLabel }}</label>
+                </div>
+            </div>
+            <div class="col-auto pl-sm-0">
+                <button type="button" class="btn btn-outline-primary" ngbTooltip="Upload" (click)="upload()"
+                    [disabled]="working">Upload</button>
+            </div>
+        </div>
+        <div class="row mt-3" *ngIf="working">
+            <div class="col">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploadProgress + '%' }"
+                        [attr.aria-valuenow]="uploadProgress" aria-valuemin="0" aria-valuemax="100">{{ uploadProgress
+                        }}%</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3" *ngIf="uploadUrls?.length > 0">
+            <div class="col">
+                <p>{{ uploadUrls?.length }} file(s) uploaded successfully!</p>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col">
+                <h2>List of Uploaded Files</h2>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col">
+                <ul class="list-group">
+                    <li *ngFor="let file of doucments" class="list-group-item">
+                        <div class="row">
+
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                        (change)="onCheckboxChange($event, file.documentId)" />
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <label class="form-check-label">
+                                    <a [routerLink]="['/', file.documentId]" (click)="downloadDocument(file.documentId)"
+                                        style="cursor: pointer; text-decoration: underline; color: blue;">
+                                        {{ file.documentName }}
+                                    </a>
+                                </label>
+                            </div>
+
+                            <div class="col">
+                                <span>No of Downloads: {{ file.noOfDownloads }}</span>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <a href="javascript:void(0);"
+                                        (click)="shareAbleLink( file.documentId, file.documentName)">
+                                        Shareable Link
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" (click)="downloadSelectedDocuments()" [disabled]="!areItemsSelected()">
+                    Download Selected
+                </button>
+            </div>
+        </div>
+
+        <div class="custom-popup" *ngIf="showPopup">
+            <div class="popup-content">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="dataInput">{{ shareAbleFileName }}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="daysInput" [(ngModel)]="inputDays"
+                                placeholder="Enter Days" [defaultValue]="0">
+                            <label class="custom-file-label" for="daysInput">Days</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="hoursInput" [(ngModel)]="inputHours"
+                                placeholder="Enter Hours" [defaultValue]="0">
+                            <label class="custom-file-label" for="hoursInput">Hours</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label for="dataLabel2"> {{ ShareableLinkText }}</label>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <button class="btn btn-primary" (click)="saveData()">Generate Link</button>
+                    <button class="btn btn-secondary" (click)="cancelPopup()">Close</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>

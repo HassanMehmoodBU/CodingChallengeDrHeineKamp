@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using FileServerServiceLogic.Contracts.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controllers
 {
@@ -13,14 +18,16 @@ namespace BackEnd.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
         private readonly IJwtMiddlewareHandler _jwtHandler;
 
-        public AuthorizationController(UserManager<User> userManager, IMapper mapper, IJwtMiddlewareHandler jwtHandler)
+        public AuthorizationController(UserManager<User> userManager, IMapper mapper, IJwtMiddlewareHandler jwtHandler, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _mapper = mapper;
             _jwtHandler = jwtHandler;
+            _signInManager = signInManager;
         }
 
         [HttpPost("Registration")]

@@ -53,7 +53,7 @@ export class RegisterUserComponent implements OnInit {
 
     this.authService.registerUser("api/authorizations/registration", user)
     .subscribe({
-      next: (_) => this.router.navigate(["/authorizations/login"]),
+      next: (_) => this.router.navigate(["/authentication/login"]),
       error: (err: HttpErrorResponse) => {
         this.errorMessage = err.message;
         this.showError = true;

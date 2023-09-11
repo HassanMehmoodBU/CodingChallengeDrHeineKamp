@@ -6,8 +6,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FileServerServiceLogic.Extensions.JwtExt;
+using FileServerServiceLogic.Repositories;
+using FileServerServiceLogic.Managers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using FileServerServiceLogic.Providers;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    ContentRootPath = Directory.GetCurrentDirectory()
+});
 
 // Add services to the container.
 
@@ -19,6 +26,10 @@ builder.Services.ConfigureSqlServerDbContext(builder.Configuration);
 builder.Services.ConfigureCors();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IJwtMiddlewareHandler, JwtMiddlewareHandler>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<IDocumentUploadManager, DocumentUploadManager>();
+builder.Services.AddScoped<IDocumentsProvider, DocumentsProvider>();
+
 
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {
@@ -35,6 +46,7 @@ builder.Services.AddAuthentication(opt =>
 {
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
 }).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -49,6 +61,7 @@ builder.Services.AddAuthentication(opt =>
             .GetBytes(jwtSettings.GetSection("securityKey").Value))
     };
 });
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -63,6 +76,8 @@ app.UseCors("CorsPolicy");
 
 //app.UseHttpsRedirection();
 
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
