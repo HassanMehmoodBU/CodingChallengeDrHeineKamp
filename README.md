@@ -10,12 +10,12 @@ To run this project Locally
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/HassanMehmoodBU/CodingChallengeDrHeineKamp.git
 ```
 
 ### Back-End
 
-- Open BackEnd.sln and open FileServerDatabase and run local.publish.xml
+- Open BackEnd.sln and open FileServerDatabase and run FileServerDatabase.publish
 - Create an empty database and set the connection string and empty database to the publish profile editor.
 - Publish Database and verify
 - Update the connection string accordingly in Web Api project "BackEnd" appsettings.json
