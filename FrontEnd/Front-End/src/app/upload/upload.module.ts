@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { UploadComponent } from './upload.component';
-
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 @NgModule({
@@ -13,6 +13,7 @@ import { UploadComponent } from './upload.component';
   ],
   imports: [
     CommonModule,
+    NgxExtendedPdfViewerModule,
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forChild([
