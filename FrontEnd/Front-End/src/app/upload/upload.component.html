@@ -65,8 +65,20 @@
                                 </label>
                             </div>
 
-                            <div class="col">
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <a href="javascript:void(0);" (click)="previewDocument( file.documentId)">
+                                        Preview
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-auto">
                                 <span>No of Downloads: {{ file.noOfDownloads }}</span>
+                            </div>
+
+                            <div class="col-auto">
+                                <span>Upload Date: {{ file.uploadDateTime | date: 'short'}}</span>
                             </div>
 
                             <div class="col-auto">
@@ -135,6 +147,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="custom-popup" *ngIf="showPreview">
+            <div class="popup-content">
+                <div class="col-md-9">
+                    <ngx-extended-pdf-viewer [src]="pdfSrc" [height]="'500px'"
+                        [width]="'500px'"></ngx-extended-pdf-viewer>
+                </div>
+                <div class="row">
+                    <button class="btn btn-secondary" (click)="cancelPreview()">Close</button>
+                </div>
+            </div>
+        </div>
+
 
 
     </div>

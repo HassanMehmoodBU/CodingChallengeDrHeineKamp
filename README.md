@@ -52,3 +52,24 @@ Clone the project
 - If the file already has a shareable link it will be shown on popup.
 
 
+## Deliverables:
+
+- Code and other assets access - zip archive, github / gitlab repository (provided via email)
+- Instructions how to run & test the application (provided above)
+- Description of main architecture and design decisions
+
+- Web API .Net 6 (back-end)
+- JwtMiddleWare for Token Authentication with ASP Identity
+- Typical CQRS pattern without event hadler instead used simple Providers for data retreival and Managers for data posting.
+- Use of Dependency Injection
+- SQL Project for easy schema deployment
+- Entity Framework for smooth Data queries.
+- Angular (front-end)
+
+## Ideas and proposals how to improve the application from a user or technical perspective
+
+- With more time invest and having a bigger scope the application architecture can be made alot different.
+- can create a custom Identity Server with ASP Identity to handle everything to have less dependency
+- can use proper CQRS implementation.
+- if the scope is big can be used as a micro-service.
+- can make DAL separate from the Logic/Shared Library.

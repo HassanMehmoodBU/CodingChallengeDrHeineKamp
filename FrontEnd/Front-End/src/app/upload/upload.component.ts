@@ -33,12 +33,15 @@ export class UploadComponent implements OnInit {
     shareAbleDocumentId = '';
     ShareableLinkText = 'Link Unavailable';
     ShareExpiry: Date = null;
+    showPreview = false;
+    pdfSrc: Blob;
 
     iconList = [
         { type: "xlsx", icon: "bi-file-excel" },
         { type: "xls", icon: "bi-file-excel" },
         { type: "pdf", icon: "bi-file-pdf" },
         { type: "jpg", icon: "bi-file-image" },
+        { type: "png", icon: "bi-file-image" },
         { type: "doc", icon: "bi-file-word" },
         { type: "docx", icon: "bi-file-word" },
         { type: "txt", icon: "bi-file-text" }
@@ -56,7 +59,7 @@ export class UploadComponent implements OnInit {
     }
 
     getFileExtension(filename) {
-        let ext = filename.split(".").pop();
+        let ext = filename.split(".").pop().toLowerCase();
         let obj = this.iconList.filter(row => {
             if (row.type === ext) {
                 return true;
@@ -303,6 +306,34 @@ export class UploadComponent implements OnInit {
             this.ShareableLinkText = this.envUrl.urlAddress + '/api/documents/downloadlink/' + this.shareAbleDocumentId;
         }
         this.openPopup()
+    }
+
+    previewDocument(fileGuid: string) {
+        const authToken = localStorage.getItem("token");;
+
+        const headers_data = new HttpHeaders({
+            'Authorization': `Bearer ${authToken}`
+        });
+
+        this.repository.downloadFile(headers_data, fileGuid).subscribe(
+            (response: HttpResponse<Blob>) => {
+                this.pdfSrc = response.body;
+
+            },
+            (error) => {
+                console.error('Error downloading file:', error);
+            },
+            () => {
+                this.router.navigate(["/upload"]);
+            }
+        );
+        
+        this.showPreview = true;
+    }
+
+    cancelPreview() {
+        this.showPreview = false;
+        this.pdfSrc = null;
     }
 
     areItemsSelected(): boolean {
